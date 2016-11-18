@@ -102,7 +102,7 @@ grid_obj = grid_search.GridSearchCV(clf2,parameters)
 
 grid_obj.fit(train_features, train_target)
 clf_o = grid_obj.best_estimator_
-
+print(train_features)
 test_predicted4 = clf_o.predict(test_features)
 print(grid_obj.best_params_)
 print ('The accuracy for testing 5 is : %.2f ' % (100*accuracy_score(test_target, test_predicted4)))
