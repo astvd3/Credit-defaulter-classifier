@@ -1,3 +1,5 @@
+#GUI for the project.
+
 from sklearn.externals import joblib
 from Tkinter import *
 top = Tk()
