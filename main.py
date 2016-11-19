@@ -105,6 +105,7 @@ clf_o = grid_obj.best_estimator_
 print(train_features)
 test_predicted4 = clf_o.predict(test_features)
 print(grid_obj.best_params_)
+print(test_features[0])
 print ('The accuracy for testing 5 is : %.2f ' % (100*accuracy_score(test_target, test_predicted4)))
 import pickle
 s=pickle.dumps(clf_o)
