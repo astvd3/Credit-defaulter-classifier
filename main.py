@@ -48,23 +48,26 @@ df_visualization["AGE_GROUP"] = 1
 bins = [20,30,40,50,60]
 df_visualization['AGE_GROUP'] = pd.cut(df_visualization['AGE'],bins)
 
+X_train,X_test,y_train,y_test=cross_validation.train_test_split(df_no_duplicates[:,:23],df_no_duplicates[:,23],test_size=0.2, random_state=0)
 
-file_train = df_no_duplicates.sample(frac=0.8,random_state=200)
+#file_train = df_no_duplicates.sample(frac=0.8,random_state=200)
 
-file_test = df_no_duplicates.drop(file_train.index)
+#file_test = df_no_duplicates.drop(file_train.index)
 
-df_visualization.to_csv('final_dataset_dp.csv', encoding='utf-8')
-file_train.to_csv('final_train_dp.csv', encoding='utf-8')
-file_test.to_csv('final_test_dp.csv', encoding='utf-8')
+#df_visualization.to_csv('final_dataset_dp.csv', encoding='utf-8')
+#file_train.to_csv('final_train_dp.csv', encoding='utf-8')
+#file_test.to_csv('final_test_dp.csv', encoding='utf-8')
 
-print(file_train.dtypes)
+#print(file_train.dtypes)
 
 from sklearn.ensemble import RandomForestClassifier
 rfc = RandomForestClassifier(n_estimators=100)
 clf3 = KNeighborsClassifier(n_neighbors=5)
-train_data = file_train.values
-train_features = train_data[:,:23]
-train_target = train_data[:,23]
+#train_data = file_train.values
+#train_features = train_data[:,:23]
+#train_target = train_data[:,23]
+train_features=X_train
+train_target=y_train
 clf3.fit(train_features, train_target)
 rfc = rfc.fit(train_features, train_target)
 score = rfc.score(train_features, train_target)
@@ -76,9 +79,12 @@ score2=clf2.score(train_features, train_target)
 print ('The accuracy for training 2 is : %.2f ' % (100*score2))
 print ('The accuracy for training is : %.2f ' % (100*score))
 
-test_data = file_test.values
-test_features = test_data[:,:23]
-test_target = test_data[:,23]
+#test_data = file_test.values
+#test_features = test_data[:,:23]
+#test_target = test_data[:,23]
+
+test_features=X_test
+test_target=y_test
 
 test_predicted = rfc.predict(test_features)
 
@@ -111,6 +117,18 @@ import pickle
 s=pickle.dumps(clf_o)
 from sklearn.externals import joblib
 joblib.dump(clf_o, 'clf_o.pkl')
+
+X_normalized = preprocessing.normalize(train_features, norm='l2')
+ii=train_target=='1'
+jj=train_target=='0'
+
+pca = PCA(n_components=2).fit(X_normalized)
+pca_reduced = pca.transform(X_normalized)
+reduced_data = pd.DataFrame(pca_reduced, columns = ['Dimension 1', 'Dimension 2'])
+plt.scatter(reduced_data['Dimension 1'][ii],reduced_data['Dimension 2'][ii],color='blue')
+plt.scatter(reduced_data['Dimension 1'][jj],reduced_data['Dimension 2'][jj],color='blue')
+plt.show()
+
 """
 from sklearn import grid_search
 parameters = {'weights':('uniform','distance'),'algorithm':('auto','ball_tree','kd_tree','brute')}
