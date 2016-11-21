@@ -9,6 +9,7 @@ This project requires **Python 2.7** with the following library installed:
 - [pandas](http://pandas.pydata.org/)
 - [numpy](http://www.numpy.org/)
 - [sklearn](http://scikit-learn.org/stable/install.html)
+- [Tkinter](https://docs.python.org/2/library/tkinter.html)
 
 ### Data
 
