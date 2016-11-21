@@ -1,13 +1,13 @@
 #GUI for the project.
 
-
+## Load Libraries
 from sklearn.externals import joblib
 from Tkinter import *
-
+### Object for GUI
 root=Tk()
-
+### Load the classifier
 clf = joblib.load('clf_o.pkl')
-
+#### Function to get the data from GUI and proecess it
 def submit_data():
     variable1 = es1.get()
     variable2 = es2.get()
@@ -49,7 +49,7 @@ def submit_data():
         msg.pack()
 
 
-
+## Defining GUI and its loop
 label1=Label(root,text="CREDIT_Limit")
 label1.grid(row=0,column=0)
 label2=Label(root,text="SEX")
@@ -178,5 +178,5 @@ labelc7.grid(row=12,column=2)
 labelc8=Label(root,text="**Amount of previous payments**")
 labelc8.grid(row=18,column=2)
 
-
+### GUI main loop
 root.mainloop()
